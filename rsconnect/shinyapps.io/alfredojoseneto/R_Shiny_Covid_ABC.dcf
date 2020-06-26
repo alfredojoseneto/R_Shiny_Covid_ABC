@@ -1,0 +1,13 @@
+name: R_Shiny_Covid_ABC
+title: R_Shiny_Covid_ABC
+username:
+account: alfredojoseneto
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2509402
+bundleId: 3321609
+url: https://alfredojoseneto.shinyapps.io/R_Shiny_Covid_ABC/
+when: 1593215602.61886
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: README.md|input/caso_full.csv.gz
