@@ -1,13 +1,6 @@
 # Libraries ---------------------------------------------------------------
-# if(!require(pacman)) {install.packages("pacman")}
-# pacman::p_load("pacman", "tidyverse", "rstudioapi", "shiny", "janitor", "directlabels", "httr")
-library(dplyr)
-library(ggplot2)
-library(rstudioapi)
-library(shiny)
-library(janitor)
-library(directlabels)
-library(httr)
+if(!require(pacman)) {install.packages("pacman")}
+pacman::p_load("pacman", "tidyverse", "rstudioapi", "shiny", "janitor", "directlabels", "httr")
 
 # Setting working directory -----------------------------------------------
 dirname(rstudioapi::getActiveDocumentContext()$path) %>% setwd()
