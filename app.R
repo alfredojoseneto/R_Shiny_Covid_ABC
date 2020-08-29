@@ -9,10 +9,10 @@ dirname(rstudioapi::getActiveDocumentContext()$path) %>% setwd()
 # Importar o data set -----------------------------------------------------
 
 # Importando o data set do site do Brasil IO e gravando em disco
-httr::GET(url = "https://data.brasil.io/dataset/covid19/caso_full.csv.gz",
-          write_disk(path = "./input/caso_full.csv.gz", overwrite = TRUE),
-          progress()
-)
+# httr::GET(url = "https://data.brasil.io/dataset/covid19/caso_full.csv.gz",
+#           write_disk(path = "./input/caso_full.csv.gz", overwrite = TRUE),
+#           progress()
+# )
 
 # Lendo o arquivo importado do Brasil IO para um data frame
 df_covid <- read.csv(file = "./input/caso_full.csv.gz", sep = ",", dec = ",",
@@ -58,41 +58,52 @@ df_covid_shiny <- df_covid_abc %>%
 
 # UI ----------------------------------------------------------------------
 ui <- fluidPage(
-  theme = shinythemes::shinytheme(theme = "superhero"),
-  titlePanel(tags$strong("Evolução do COVID nas 7 Cidades do ABC")), #end of titlePane
-  
-  tags$hr(),
-  
-  sidebarLayout(
-    sidebarPanel(
-      dateRangeInput(inputId = "date_range",
-                     label = "Selecione o intervalo de datas",
-                     format = "dd/mm/yyyy",
-                     separator = "-",
-                     min = min(df_covid_shiny$date),
-                     max = max(df_covid_shiny$date),
-                     start = min(df_covid_shiny$date),
-                     end = max(df_covid_shiny$date)
-      ), #end of dateRangeInput
-      
-      checkboxGroupInput(inputId = "cities_abc",
-                         label = "Selecione a(s) Cidade(s)",
-                         choices = c("São Caetano do Sul",
-                                     "Santo André",
-                                     "Mauá",
-                                     "Diadema",
-                                     "São Bernardo do Campo",
-                                     "Rio Grande da Serra",
-                                     "Ribeirão Pires"),
-                         selected = "São Caetano do Sul"
-      ) #end of checkboxGroupInput
-    ), #end of sidebarPanel
-    
-    mainPanel(plotOutput("covid_linear"),
-              plotOutput("covid_linear_death")) #end of mainPanel
-  ), #end of sidebarLayout
-  
-  tags$hr(),
+  theme = shinythemes::shinytheme(theme = "journal"),
+  navbarPage(title = "Shiny COVID ABC",
+             tabPanel(title = "Gráfico",
+                      titlePanel(tags$strong("Evolução do COVID nas 7 Cidades do ABC")),
+                      tags$hr(),
+                      sidebarLayout(
+                        sidebarPanel(
+                          dateRangeInput(inputId = "date_range",
+                                         label = "Selecione o intervalo de datas",
+                                         format = "dd/mm/yyyy",
+                                         separator = "-",
+                                         min = min(df_covid_shiny$date),
+                                         max = max(df_covid_shiny$date),
+                                         start = min(df_covid_shiny$date),
+                                         end = max(df_covid_shiny$date)
+                          ), #end of dateRangeInput
+                          
+                          checkboxGroupInput(inputId = "cities_abc",
+                                             label = "Selecione a(s) Cidade(s)",
+                                             choices = c("São Caetano do Sul",
+                                                         "Santo André",
+                                                         "Mauá",
+                                                         "Diadema",
+                                                         "São Bernardo do Campo",
+                                                         "Rio Grande da Serra",
+                                                         "Ribeirão Pires"),
+                                             selected = "São Caetano do Sul"
+                          ) #end of checkboxGroupInput
+                        ), #end of sidebarPanel
+                        
+                        mainPanel(plotOutput("covid_linear"),
+                                  tags$hr(),
+                                  plotOutput("covid_linear_death")) #end of mainPanel
+                      ), #end of sidebarLayout),
+                      navbarMenu("More",
+                                 tabPanel("Summary"),
+                                 "----",
+                                 "Section header",
+                                 tabPanel("Table")
+                      )
+             ), # end of tabPanel gráfico
+             tabPanel(title = "Sobre",
+                      tags$div(
+                        "Aqui iremos colocar a descrição dos autores, e tudo o que for necssário"
+                      )) #end of tabPanel sobre
+  ), #end of navbarPage
 ) #end of fluidPage
 
 
@@ -127,7 +138,7 @@ server <- function(input, output) {
                  colour = "#2769db") +
       scale_color_discrete(guide = "none") +
       scale_x_date(expand = expansion(mult = c(0.01, 0.25)),
-                   limits = c(first_day, last_day),
+                   limits = c(input$date_range[1], input$date_range[2]),
                    breaks = seq(from = first_day, to = last_day, by = 3),
                    date_labels = "%d-%B") +
       directlabels::geom_dl(mapping = aes(label = city),
@@ -157,7 +168,7 @@ server <- function(input, output) {
     print(plot_shiny)
     
   }) #end of renderPlot --> output$linear_covid
-  
+
   output$covid_linear_death <- renderPlot({
     
     
@@ -182,7 +193,7 @@ server <- function(input, output) {
       geom_line(size = 1) +
       scale_x_date(expand = expansion(mult = c(0.01, 0.25)),
                    breaks = seq(from = first_day, to = last_day, by = 3),
-                   limits = c(first_day, last_day),
+                   limits = c(input$date_range[1], input$date_range[2]),
                    date_labels = "%d-%B") +
       scale_color_discrete(guide = "none") +
       directlabels::geom_dl(mapping = aes(label = city),
