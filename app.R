@@ -1,6 +1,7 @@
 # Libraries ---------------------------------------------------------------
 if(!require(pacman)) {install.packages("pacman")}
-pacman::p_load("pacman", "tidyverse", "rstudioapi", "shiny", "janitor", "directlabels", "httr")
+pacman::p_load("pacman", "tidyverse", "rstudioapi", "shiny", "janitor",
+               "directlabels", "httr", "shinythemes")
 
 # Setting working directory -----------------------------------------------
 dirname(rstudioapi::getActiveDocumentContext()$path) %>% setwd()
@@ -57,6 +58,7 @@ df_covid_shiny <- df_covid_abc %>%
 
 # UI ----------------------------------------------------------------------
 ui <- fluidPage(
+  theme = shinythemes::shinytheme(theme = "superhero"),
   titlePanel(tags$strong("Evolução do COVID nas 7 Cidades do ABC")), #end of titlePane
   
   tags$hr(),
