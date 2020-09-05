@@ -5,9 +5,9 @@ account: alfredojoseneto
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2509402
-bundleId: 3321609
+bundleId: 3595133
 url: https://alfredojoseneto.shinyapps.io/R_Shiny_Covid_ABC/
-when: 1593215602.61886
+when: 1599271274.37861
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: README.md|input/caso_full.csv.gz
+ignoredFiles: README.md

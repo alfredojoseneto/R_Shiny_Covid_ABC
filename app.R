@@ -1,10 +1,13 @@
 # Libraries ---------------------------------------------------------------
-if(!require(pacman)) {install.packages("pacman")}
-pacman::p_load("pacman", "tidyverse", "rstudioapi", "shiny", "janitor",
-               "directlabels", "httr", "shinythemes")
+library(tidyverse)
+library(shiny)
+library(shinythemes)
+library(janitor)
+library(directlabels)
+library(httr)
 
-# Setting working directory -----------------------------------------------
-dirname(rstudioapi::getActiveDocumentContext()$path) %>% setwd()
+# # Setting working directory -----------------------------------------------
+# dirname(rstudioapi::getActiveDocumentContext()$path) %>% setwd()
 
 # Importar o data set -----------------------------------------------------
 
@@ -102,26 +105,32 @@ ui <- fluidPage(
              tabPanel(title = "Sobre",
                       tags$div(
                         "Este aplicativo foi planejado e construído com uma lúdica pretensão. Quando, em meio à pandemia do CORONA VÍRUS, no mês de junho de 2020, 3 desconhecidos se encontram virtualmente. A Estatística, o Farmacêutico e o Analista de Dados, nessa ordem,Regina Albanese Pose - Docente da Universidade São Caetano do Sul - Conselheira no Conselho Regional de Estatística - CONRE 3, Membro da comunidade R-Ladies SP, interessada em análise de dados com softwares livres e de códigos abertos",
-                        tags$a("http://lattes.cnpq.br/1832375183593136"),
+                        tags$a(href = "http://lattes.cnpq.br/1832375183593136",
+                               "http://lattes.cnpq.br/1832375183593136"),
                         "; Alfredo Rodrigues Neto - Farmacêutico graduado pela Universidade Federal da Bahia - Pós-Graduado em Farmácia Clínica pela USP, interessado em análise de dados",
-                        tags$a(href="http://lattes.cnpq.br/0808877552696289"),
+                        tags$a(href = "http://lattes.cnpq.br/0808877552696289",
+                               "http://lattes.cnpq.br/0808877552696289"),
                         "; Olímpio Ribeiro da Fonseca Neto - Analista de Sistemas graduado pela FATEC-SP-Ipiranga, Técnico Sênior de laboratório de baixas temperaturas e altos campos magnéticos IF/USP, interessado em análise de sistemas",
-                        tags$a("http://lattes.cnpq.br/3125618480334226"),
-                        "."),
+                        tags$a(href = "http://lattes.cnpq.br/3125618480334226",
+                               "http://lattes.cnpq.br/3125618480334226"), "."
+                        ),
                       tags$br(),
                       tags$div(
                         "Três aspirantes à Ciência de Dados, três pessoas impactadas pelo momento vivenciado, três apaixonados pela Ciência e pela vida. A Estatística lança a ideia em um grupo de medicina baseada em evidências, o farmacêutico, aceita o desafio, e o analista de sistemas
 resolve interagir com o grupo. E assim, construímos este aplicativo, simples, descritivo, com dados do momento real. O aplicativo mora na casa do farmacêutico,",
-                        tags$a("https://alfredojoseneto.shinyapps.io/R_Shiny_Covid_ABC/"),
+                        tags$a(href = "https://alfredojoseneto.shinyapps.io/R_Shiny_Covid_ABC/",
+                               "https://alfredojoseneto.shinyapps.io/R_Shiny_Covid_ABC/"),
                         "e pode ser consultado todos os dias, de forma atualizada, pelo site",
-                        tags$a("https://brasil.io/home/"),
+                        tags$a(href = "https://brasil.io/home/",
+                               "https://brasil.io/home/"),
                         ", que foi o escolhido por nossa equipe, para “alimentar” o sistema, por ser também desenvolvido em software aberto e livre, e promover o fornecimento dos dados com atualizações diárias direto das Secretarias de Saúde Municipais."
                       ),
                       tags$br(),
-                      tags$div("As possibilidades são bem simples, e a meta, proposta pela Estatística e Professora da USCS, Regina, foi recortar o cenário das 7 cidades do ABC, quais, sejam Santo André, São Bernardo do Campo, São Caetano do Sul, Mauá, Ribeirão Pires, Rio Grande da Serra, cenário de estudos do Observatório de Políticas Públicas, Empreendedorismo e Conjuntura da USCS, formado por professores, alunos e parceiros convidados, tendo como objetivo elaborar e publicar, periodicamente, notas técnicas no campo das Políticas Públicas, Empreendedorismo e Conjuntura (CONJUSCS). Sendo que este aplicativo, está inserido na 13a. carta de conjuntura do CONJUSCS, e pode ser acessada em ",
-                               tags$a(href="https://www.uscs.edu.br/noticias/cartasconjuscs"),
-                               "As possíveis telas até agora, setembro de 2020, deste aplicativo são, a tela sem qualquer seleção de cidades, com a seleção de apenas uma delas,
-ou, a combinação de duas ou mais cidades para que se faça um comparativo entre as curvas acumuladas de casos e mortes por COVID-19."
+                      tags$div(
+                        "As possibilidades são bem simples, e a meta, proposta pela Estatística e Professora da USCS, Regina, foi recortar o cenário das 7 cidades do ABC, quais, sejam Santo André, São Bernardo do Campo, São Caetano do Sul, Mauá, Ribeirão Pires, Rio Grande da Serra, cenário de estudos do Observatório de Políticas Públicas, Empreendedorismo e Conjuntura da USCS, formado por professores, alunos e parceiros convidados, tendo como objetivo elaborar e publicar, periodicamente, notas técnicas no campo das Políticas Públicas, Empreendedorismo e Conjuntura (CONJUSCS). Sendo que este aplicativo, está inserido na 13a. carta de conjuntura do CONJUSCS, e pode ser acessada em ",
+                        tags$a(href = "https://www.uscs.edu.br/noticias/cartasconjuscs",
+                               "https://www.uscs.edu.br/noticias/cartasconjuscs"),
+                        "As possíveis telas até agora, setembro de 2020, deste aplicativo são, a tela sem qualquer seleção de cidades, com a seleção de apenas uma delas, ou, a combinação de duas ou mais cidades para que se faça um comparativo entre as curvas acumuladas de casos e mortes por COVID-19."
                       )
              ) #end of tabPanel sobre
   ), #end of navbarPage
@@ -189,7 +198,7 @@ server <- function(input, output) {
     print(plot_shiny)
     
   }) #end of renderPlot --> output$linear_covid
-
+  
   output$covid_linear_death <- renderPlot({
     
     
